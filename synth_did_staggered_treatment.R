@@ -32,6 +32,7 @@ staggered_synth_DID <-
     colnames(state_initial_treat)[1]="unit"
     colnames(state_initial_treat)[2]="initial_treat_period"
     colnames(data)[unit]="unit"
+    colnames(data)[time_var]="period"
     col_name_vec=colnames(data)
     data=merge(data, state_initial_treat, by="unit")
     unit=1
@@ -49,7 +50,7 @@ staggered_synth_DID <-
     result_matrix=matrix(ncol=6, nrow=length(treated_periods))
     
     data=na.omit(data)
-    data <- make.pbalanced(data, balance.type="shared.times", index=c("unit", "t_from_Jan1_14") )
+    data <- make.pbalanced(data, balance.type="shared.times", index=c("unit", "period") )
     for (i in 1:length(treated_periods)){
       subbed=data[which(data[,initial_treat_var]==treated_periods[i]|data[,initial_treat_var]==untreated),]
       result_matrix[i,1]=treated_periods[i]
