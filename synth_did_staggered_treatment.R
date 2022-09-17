@@ -47,6 +47,9 @@ staggered_synth_DID <-
     treated_periods=unique(data[which(data[,initial_treat_var]>0), initial_treat_var])
     treated_periods=treated_periods[which(treated_periods>min(data[,time_var])+1)]
     result_matrix=matrix(ncol=6, nrow=length(treated_periods))
+    
+    data=na.omit(data)
+    data <- make.pbalanced(data, balance.type="shared.times", index=c("unit", "t_from_Jan1_14") )
     for (i in 1:length(treated_periods)){
       subbed=data[which(data[,initial_treat_var]==treated_periods[i]|data[,initial_treat_var]==untreated),]
       result_matrix[i,1]=treated_periods[i]
